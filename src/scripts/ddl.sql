@@ -19,7 +19,6 @@ CREATE TABLE books_mangement_system.book (
 	store_code varchar(12) NOT NULL,
 	created_on date NOT NULL,
 	created_by varchar(50) NOT NULL,
-	book_isbn varchar(12) NOT NULL,
 	CONSTRAINT book_pkey PRIMARY KEY (book_id)
 );
 

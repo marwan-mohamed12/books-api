@@ -15,6 +15,19 @@ exports.getBooksList = async (req, res) => {
     }
 };
 
+exports.getBookDetails = async (req, res) => {
+    try {
+        let bookId = req.params.bookId;
+        let bookDetailsQuery = queries.queryList.GET_BOOK_DETAILS_QUERY;
+        let result = await dbConnection.dbQuery(bookDetailsQuery, [bookId]);
+
+        return res.status(200).send(result.rows);
+    } catch (error) {
+        console.log("Error in getBookDetails", error);
+        return res.status(500).send("Failed to get book details");
+    }
+};
+
 exports.addBook = async (req, res) => {
     try {
         let createdOn = new Date(),
@@ -29,8 +42,6 @@ exports.addBook = async (req, res) => {
             bookPages,
             storeCode,
         } = req.body;
-
-        let bookISBN = generateStoreCode();
 
         if (
             !bookTitle ||
@@ -54,7 +65,6 @@ exports.addBook = async (req, res) => {
             storeCode,
             createdOn,
             createdBy,
-            bookISBN,
         ]);
 
         return res.status(201).send("Book added successfully");
