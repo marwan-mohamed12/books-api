@@ -1,12 +1,14 @@
 const queries = require("../db/queires"),
     dbConnection = require("../db/connection");
-const router = require("../routes/storeRoute");
 const { idValidation } = require("../util/validation");
+const Logger = require("../services/loggerService");
+const logger = new Logger("bookController");
 
 exports.getBooksList = async (req, res) => {
     try {
         let bookListQuery = queries.queryList.GET_BOOKS_LIST_QUERY;
         let result = await dbConnection.dbQuery(bookListQuery);
+        logger.info("Book list fetched successfully", result.rows);
 
         return res.status(200).send(result.rows);
     } catch (error) {
