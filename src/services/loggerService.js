@@ -46,6 +46,14 @@ class loggerService {
     async debug(message, obj) {
         this.logger.log("debug", message, { obj });
     }
+
+    async error(message) {
+        this.logger.log("error", message);
+    }
+
+    async error(message, obj) {
+        this.logger.log("error", message, { obj });
+    }
 }
 
 module.exports = loggerService;

@@ -2,17 +2,37 @@ const queries = require("../db/queires"),
     dbConnection = require("../db/connection");
 const { idValidation } = require("../util/validation");
 const Logger = require("../services/loggerService");
+const { log } = require("winston");
 const logger = new Logger("bookController");
+const auditService = require("../audit/auditServices");
+const action = require("../audit/auditAction");
+const { dateformat } = require("../util/helpers");
 
 exports.getBooksList = async (req, res) => {
     try {
         let bookListQuery = queries.queryList.GET_BOOKS_LIST_QUERY;
         let result = await dbConnection.dbQuery(bookListQuery);
-        logger.info("Book list fetched successfully", result.rows);
+        // logger.info("Book list fetched successfully", result.rows);
+        console.log(new Date());
+        auditService.prepareAudit(
+            action.actionList.GET_BOOK_LIST,
+            result.rows,
+            null,
+            "admin",
+            new Date(Date.now())
+        );
 
         return res.status(200).send(result.rows);
     } catch (error) {
         console.log("Error in getBooksList", error);
+        let errorMessage = `Failed to get books: ${error}`;
+        auditService.prepareAudit(
+            action.actionList.GET_BOOK_LIST,
+            null,
+            errorMessage,
+            "admin",
+            dateformat()
+        );
         return res.status(500).send("Failed to get books");
     }
 };
@@ -72,6 +92,7 @@ exports.addBook = async (req, res) => {
         return res.status(201).send("Book added successfully");
     } catch (error) {
         console.log("Error in addBook", error);
+        logger.error("Error in addBook", error);
         return res.status(500).send("Failed to add book");
     }
 };

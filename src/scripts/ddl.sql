@@ -31,9 +31,22 @@ CREATE TABLE books_mangement_system.book (
 CREATE TABLE books_mangement_system.store (
 	store_id serial4 NOT NULL,
 	store_name varchar(100) NOT NULL,
-	store_code varchar(20) NOT NULL,
-	created_on timestamp NOT NULL,
+	store_code varchar(10) NOT NULL,
+	created_on date NOT NULL,
 	created_by varchar(50) NOT NULL,
-	address varchar(50) NOT NULL,
+	address varchar(200) NOT NULL,
 	CONSTRAINT store_pkey PRIMARY KEY (store_id)
+);
+
+-- app-audit
+
+CREATE TABLE books_mangement_system.app_audit (
+    audit_id serial4 NOT NULL,
+    audit_action varchar(100) NOT NULL,
+    audit_data json NOT NULL,
+    audit_status varchar(50) NULL,
+    audit_error json NULL,
+    audit_by varchar(50) NOT NULL,
+    audit_on date NOT NULL,
+    CONSTRAINT app_audit_pkey PRIMARY KEY (audit_id)
 );
