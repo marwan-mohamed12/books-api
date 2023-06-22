@@ -7,6 +7,9 @@ const logger = new Logger("bookController");
 const auditService = require("../audit/auditServices");
 const action = require("../audit/auditAction");
 const { dateformat } = require("../util/helpers");
+const APIErorr = require("../error/apiError");
+const { INTERNAL_SERVER_ERROR } = require("../error/errorStatus");
+const { API_ERROR } = require("../error/errorType");
 
 exports.getBooksList = async (req, res) => {
     try {
@@ -40,12 +43,28 @@ exports.getBooksList = async (req, res) => {
 exports.getBookDetails = async (req, res) => {
     try {
         let bookId = req.params.bookId;
+
+        if (isNaN(bookId)) {
+            throw new APIErorr(
+                APIErorr,
+                INTERNAL_SERVER_ERROR,
+                `BookId should be a number not ${bookId}`,
+                true
+            );
+        }
+
         let bookDetailsQuery = queries.queryList.GET_BOOK_DETAILS_QUERY;
         let result = await dbConnection.dbQuery(bookDetailsQuery, [bookId]);
 
         return res.status(200).send(result.rows);
     } catch (error) {
         console.log("Error in getBookDetails", error);
+
+        if (error.type === API_ERROR) {
+            // Hanlder(); send mail to admin
+        }
+
+        logger.error("Failed to get Book details ", JSON.stringify(error));
         return res.status(500).send("Failed to get book details");
     }
 };
