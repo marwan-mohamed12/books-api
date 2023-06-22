@@ -1,0 +1,70 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Books API",
+        "description": "Books store API information",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Books APP",
+            "description": "API"
+        }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/api/v1/books": {
+            "get": {
+                "summary": "Return list of books",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Get the list of books successfully",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/books"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "book": {
+            "required": ["title", "author", "puplisher"],
+            "properties": {
+                "bookId": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "publisher": {
+                    "type": "string"
+                },
+                "author": {
+                    "type": "string"
+                },
+                "pages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "books": {
+            "$ref": "#/definitions/book"
+        }
+    }
+}
