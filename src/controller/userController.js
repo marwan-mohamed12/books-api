@@ -1,16 +1,11 @@
 const queries = require("../db/queires"),
     dbConnection = require("../db/connection");
-const { idValidation } = require("../util/validation");
 const Logger = require("../services/loggerService");
-const { log } = require("winston");
 const logger = new Logger("userController");
 const auditService = require("../audit/auditServices");
 const action = require("../audit/auditAction");
 const { dateformat } = require("../util/helpers");
 const validationUtil = require("../util/validation");
-const APIErorr = require("../error/apiError");
-const { INTERNAL_SERVER_ERROR } = require("../error/errorStatus");
-const { API_ERROR } = require("../error/errorType");
 const bcrypt = require("bcryptjs");
 
 exports.getUserList = async (req, res) => {

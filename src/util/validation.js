@@ -1,6 +1,7 @@
 const dbConnection = require("../db/connection");
 var passwordValidator = require("password-validator");
 var passwordChecker = new passwordValidator();
+const bcrypt = require("bcryptjs");
 
 exports.idValidation = async (id, query) => {
     try {
@@ -12,6 +13,10 @@ exports.idValidation = async (id, query) => {
     } catch (error) {
         console.log("Error in idValidation", error);
     }
+};
+
+exports.comparePassword = (password, hashedPassword) => {
+    return bcrypt.compareSync(password, hashedPassword);
 };
 
 exports.isValidEmail = (email) => {
