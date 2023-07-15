@@ -22,7 +22,7 @@ app.use("/api/v1", bookRoute);
 app.use("/api/v1", userRoute);
 app.use("/api/v1", loginRoute);
 app.use("/api/v1", uploadRoute);
-// app.use("/api/v1", exportRoute);
+app.use("/api/v1", exportRoute);
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
